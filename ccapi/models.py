@@ -3,6 +3,7 @@ from decimal import Decimal, InvalidOperation
 from django.db import models
 
 
+
 class Employee(models.Model):
     id = models.AutoField(primary_key=True)  # Explicitly defining auto-increment field
     name = models.CharField(max_length=255)
@@ -42,3 +43,30 @@ class EmployeeDetails(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.employee.name}"
+
+
+
+class CustomerDetail(models.Model):
+    name = models.CharField(max_length=255)
+    mobile_number = models.CharField(max_length=15)
+    address = models.TextField()
+    photo_upload = models.ImageField(upload_to='customer_photos/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    
+
+
+class CustomerPurchase(models.Model):
+    date = models.DateTimeField(default=timezone.now)
+    coconut_count = models.PositiveIntegerField()
+    rate = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.00'))
+    amount = models.DecimalField(max_digits=10, decimal_places=2, editable=True)
+
+    def save(self, *args, **kwargs):
+        self.amount = self.coconut_count * self.rate
+        super(CustomerPurchase, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.coconut_count} coconuts purchased on {self.date}"
+

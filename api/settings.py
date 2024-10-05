@@ -1,27 +1,37 @@
 import os
 from pathlib import Path
-import tempfile
 
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Keep your secret key safe in production
-SECRET_KEY = 'django-insecure-fdz!4cp!p7lthixz9n9o9_*d66om9@739gpao^#&hrx=r80^1s'
+# Secret key for the project
+# It's important to keep this key safe, especially in production
+SECRET_KEY = 'django-insecure-e0s#hyx5a(x^0h=e_^7h=wxtmkl1m-0epselz#d5^^lqkp$9f+'
 
-DEBUG = True
+# DEBUG mode should be disabled in production
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
+# Hosts allowed to connect to the application
+ALLOWED_HOSTS = [
+    '127.0.0.1', 
+    'localhost',
+    '.vercel.app'
+]
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
     'rest_framework',
     'ccapi',
     'storages',
+    'drf_yasg',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -60,7 +71,7 @@ DATABASES = {
     }
 }
 
-# Password validation
+# Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -68,25 +79,31 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# Internationalization settings
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+   
+}
+
+
+# Static file settings (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Media files
-if 'VERCEL' in os.environ:
-    MEDIA_ROOT = '/tmp'
-else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Media file settings
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Default coconut rates
+# Default coconut rates (custom setting)
 DEFAULT_COCONUT_RATE = [0.85]
 
 # Default primary key field type
