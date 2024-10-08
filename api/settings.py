@@ -93,16 +93,12 @@ REST_FRAMEWORK = {
    
 }
 
-
-# Static file settings (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-# Media file settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
 # Default coconut rates (custom setting)
 DEFAULT_COCONUT_RATE = [0.85]
 

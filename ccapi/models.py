@@ -1,6 +1,7 @@
 from django.utils import timezone
 from decimal import Decimal, InvalidOperation
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -29,13 +30,13 @@ class EmployeeDetails(models.Model):
         except InvalidOperation:
             raise ValueError("Rate must be a valid decimal number.")
 
-        # Calculate the amount based on coconut_count and rate
+        
         if self.coconut_count and self.rate:
             self.amount = Decimal(self.coconut_count) * self.rate
         else:
             self.amount = Decimal('0.00')
 
-        # Ensure that `date` is always a date, not datetime
+       
         if isinstance(self.date, timezone.datetime):
             self.date = self.date.date()
 
@@ -51,22 +52,39 @@ class CustomerDetail(models.Model):
     mobile_number = models.CharField(max_length=15)
     address = models.TextField()
     photo_upload = models.ImageField(upload_to='customer_photos/', blank=True, null=True)
+ 
 
     def __str__(self):
         return self.name
     
 
-
 class CustomerPurchase(models.Model):
-    date = models.DateTimeField(default=timezone.now)
     coconut_count = models.PositiveIntegerField()
-    rate = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.00'))
-    amount = models.DecimalField(max_digits=10, decimal_places=2, editable=True)
+    rate = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    date = models.DateTimeField(default=timezone.now) 
+   
 
     def save(self, *args, **kwargs):
-        self.amount = self.coconut_count * self.rate
+        if self.coconut_count is not None and self.rate is not None:
+            self.amount = self.coconut_count * self.rate
+        else:
+            self.amount = 0
         super(CustomerPurchase, self).save(*args, **kwargs)
 
-    def __str__(self):
-        return f"{self.coconut_count} coconuts purchased on {self.date}"
+
+'''class vendorpurchase(models.model):
+    name = models.CharField(max_length=255)
+    mobile_number = models.CharField(max_length=10)
+    company = models.CharField(max_length=255)
+    address = models.TextField()
+    photo_upload = models.ImageField(upload_to='customer_photos/', blank=True, null=True)'''
+
+    
+
+  
+
+    
+   
+
 

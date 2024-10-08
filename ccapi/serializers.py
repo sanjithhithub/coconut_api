@@ -29,6 +29,14 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
 
 class CustomerPurchaseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomerPurchase  # Corrected from Model to model
-        fields = ['date', 'coconut_count', 'rate', 'amount']  # Corrected from field to fields
-        read_only_fields = ['coconut_count', 'rate', 'amount']  # Ensure to include commas between fields
+        model = CustomerPurchase
+        fields = ['date', 'coconut_count', 'rate', 'amount']
+       # read_only_fields = ['amount']  
+
+    def validate(self, data):
+       
+        if data.get('coconut_count') is None:
+            raise serializers.ValidationError({'coconut_count': 'This field is required.'})
+        if data.get('rate') is None:
+            raise serializers.ValidationError({'rate': 'This field is required.'})
+        return data
