@@ -1,19 +1,19 @@
 from django.urls import path
 from . import views
-from .views import CustomerDetailListCreateView, CustomerDetailRetrieve
-from .views import CustomerPurchaseListCreateView, CustomerPurchaseRetrieveUpdateDestroyView
-
-
-from django.urls import path
-from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from . import views
+from rest_framework import permissions
 from .views import (
     CustomerDetailListCreateView, 
     CustomerDetailRetrieve,
     CustomerPurchaseListCreateView, 
-    CustomerPurchaseRetrieveUpdateDestroyView
+    CustomerPurchaseRetrieveUpdateDestroyView,
+    VendorPurchaseListCreateView,
+    VendorPurchaseRetrieveUpdateDestroyView,
+    EmployeecountListCreate,
+    EmployeecountDetailRetrieve,
+    vendorsalesListCreateView,
+    vendorsalesRetrieveUpdateDestroyView
 )
 
 # Swagger Schema Configuration
@@ -31,17 +31,31 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # API Endpoints
+    # Employee API Endpoints
     path('employee-details/', views.EmployeeDetailsListCreate.as_view(), name='employee-details-list-create'),
     path('employee-details/<int:pk>/', views.EmployeeDetailsDetail.as_view(), name='employee-details-detail'),
-    path('employee/', views.EmployeeListCreate.as_view(), name='employee-list-create'),
+
+
+    # Employee Count Endpoints
+    path('employeecount/', EmployeecountListCreate.as_view(), name='employeecount-list-create'),
+    path('employeecount/<int:pk>/', EmployeecountDetailRetrieve.as_view(), name='employeecount-detail'),
+
+    # Customer API Endpoints
     path('customers/', CustomerDetailListCreateView.as_view(), name='customer-list-create'),
     path('customers/<int:pk>/', CustomerDetailRetrieve.as_view(), name='customer-detail'),
+
+    # Purchase API Endpoints
     path('purchases/', CustomerPurchaseListCreateView.as_view(), name='purchase-list-create'),
     path('purchases/<int:pk>/', CustomerPurchaseRetrieveUpdateDestroyView.as_view(), name='purchase-detail'),
 
+    # Vendor Purchase Endpoints
+    path('vendorpurchase/', VendorPurchaseListCreateView.as_view(), name='vendor-list-create'),
+    path('vendorpurchase/<int:pk>/', VendorPurchaseRetrieveUpdateDestroyView.as_view(), name='vendorpurchase-detail'),
+    path('vendorsales/', vendorsalesListCreateView.as_view(),name = 'vendorsales-list-create'),
+    path('vendorsales/<int:pk>/', vendorsalesRetrieveUpdateDestroyView.as_view(),name = 'vendorsales'),
+
     # Swagger Documentation Endpoints
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=1), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 

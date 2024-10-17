@@ -1,14 +1,15 @@
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework import generics
-from .models import EmployeeDetails, Employee
-from .serializers import EmployeeDetailsSerializer, EmployeeSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
-from .models import CustomerDetail
-from .serializers import CustomerDetailSerializer
-from .models import CustomerPurchase
-from .serializers import CustomerPurchaseSerializer
+from .models import EmployeeDetails, Employeecount, CustomerDetail, CustomerPurchase, VendorPurchase,vendorsales
+from .serializers import (
+    EmployeeDetailsSerializer, 
+    EmployeecountSerializer, 
+    CustomerDetailSerializer, 
+    CustomerPurchaseSerializer, 
+    VendorPurchaseSerializer,
+    vendorsalesSerializer
+)
+
 
 class EmployeeDetailsListCreate(generics.ListCreateAPIView):
     queryset = EmployeeDetails.objects.all()
@@ -20,9 +21,14 @@ class EmployeeDetailsDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeDetailsSerializer
     parser_classes = (MultiPartParser, FormParser)
 
-class EmployeeListCreate(generics.ListCreateAPIView):
-    queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
+
+class EmployeecountListCreate(generics.ListCreateAPIView):
+    queryset = Employeecount.objects.all()
+    serializer_class = EmployeecountSerializer
+
+class EmployeecountDetailRetrieve(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Employeecount.objects.all()
+    serializer_class = EmployeecountSerializer
 
 
 class CustomerDetailListCreateView(generics.ListCreateAPIView):
@@ -32,9 +38,6 @@ class CustomerDetailListCreateView(generics.ListCreateAPIView):
 class CustomerDetailRetrieve(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomerDetail.objects.all()
     serializer_class = CustomerDetailSerializer    
-
-
-
 class CustomerPurchaseListCreateView(generics.ListCreateAPIView):
     queryset = CustomerPurchase.objects.all()
     serializer_class = CustomerPurchaseSerializer
@@ -42,4 +45,19 @@ class CustomerPurchaseListCreateView(generics.ListCreateAPIView):
 class CustomerPurchaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomerPurchase.objects.all()
     serializer_class = CustomerPurchaseSerializer
- 
+
+class VendorPurchaseListCreateView(generics.ListCreateAPIView):
+    queryset = VendorPurchase.objects.all()
+    serializer_class = VendorPurchaseSerializer
+
+class VendorPurchaseRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = VendorPurchase.objects.all()
+    serializer_class = VendorPurchaseSerializer
+
+class vendorsalesListCreateView(generics.ListCreateAPIView):
+    queryset = vendorsales.objects.all()
+    serializer_class = vendorsalesSerializer
+
+class vendorsalesRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = vendorsales.objects.all()
+    serializer_class = vendorsalesSerializer    
