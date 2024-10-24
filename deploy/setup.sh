@@ -32,9 +32,11 @@ $PROJECT_BASE_PATH/env/bin/pip install uwsgi  # Install uwsgi without a specific
 $PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py migrate
 # Setup Supervisor to run the uwsgi process for your project
 cp $PROJECT_BASE_PATH/api/deploy/supervisor_coconut_api.conf /etc/supervisor/conf.d/coconut_api.conf
+
 supervisorctl reread
 supervisorctl update
 supervisorctl restart coconut_api
+
 
 # Setup Nginx to make your application accessible
 cp $PROJECT_BASE_PATH/api/deploy/nginx_coconut_api.conf /etc/nginx/sites-available/coconut_api.conf
