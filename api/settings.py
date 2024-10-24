@@ -9,14 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e0s#hyx5a(x^0h=e_^7h=wxtmkl1m-0epselz#d5^^lqkp$9f+'
 
 # DEBUG mode should be disabled in production
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 # Hosts allowed to connect to the application
-ALLOWED_HOSTS = [
-    '127.0.0.1', 
-    'localhost',
-    '.vercel.app'
-]
+ALLOWED_HOSTS = []
+    
+   
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -93,9 +93,12 @@ REST_FRAMEWORK = {
    
 }
 
-STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
+
+STATIC_ROOT = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
