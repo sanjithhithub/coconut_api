@@ -5,7 +5,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Secret key for the project
-# It's important to keep this key safe, especially in production
 SECRET_KEY = 'django-insecure-e0s#hyx5a(x^0h=e_^7h=wxtmkl1m-0epselz#d5^^lqkp$9f+'
 
 # DEBUG mode should be disabled in production
@@ -13,9 +12,6 @@ DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 # Hosts allowed to connect to the application
 ALLOWED_HOSTS = []
-    
-   
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -24,13 +20,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles', 
+    'django.contrib.staticfiles',
     'rest_framework',
     'ccapi',
     'storages',
     'drf_yasg',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,23 +80,28 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
+# Django REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-   
 }
 
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'  # URL to access static files
+# Directory for collectstatic
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_URL = '/static/'
 
-STATIC_ROOT = 'static/'
-
+# Media files settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
 # Default coconut rates (custom setting)
 DEFAULT_COCONUT_RATE = [0.85]
 
