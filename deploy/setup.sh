@@ -14,7 +14,7 @@ locale-gen en_GB.UTF-8
 # Install Python, SQLite, pip, and other dependencies
 echo "Installing dependencies..."
 apt-get update
-apt-get install -y python3-dev python3-venv sqlite python-pip supervisor nginx git
+apt-get install -y python3-dev python3-venv python3-pip sqlite3 supervisor nginx git
 
 # Create project directory and clone your GitHub repo
 mkdir -p $PROJECT_BASE_PATH
