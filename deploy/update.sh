@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT_BASE_PATH='/usr/local/apps/coconut_api/api'  # Updated path
+PROJECT_BASE_PATH='/usr/local/apps/coconut_api/'  # Updated path
 
 cd $PROJECT_BASE_PATH
 git pull
