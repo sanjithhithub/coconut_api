@@ -6,7 +6,7 @@ set -e
 PROJECT_GIT_URL='https://github.com/sanjithhithub/coconut_api.git'
 
 # Path where your project will be deployed.
-PROJECT_BASE_PATH='/usr/local/apps/coconut_api'
+PROJECT_BASE_PATH='/usr/local/apps/coconut_api/api'
 
 # Set Ubuntu Language
 locale-gen en_GB.UTF-8
