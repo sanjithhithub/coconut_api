@@ -40,10 +40,16 @@ supervisorctl restart coconut_api
 
 # Setup Nginx to make your application accessible
 cp $PROJECT_BASE_PATH/deploy/nginx_coconut_api.conf /etc/nginx/sites-available/coconut_api.conf
-if [ -f /etc/nginx/sites-enabled/default ]; then
-    rm /etc/nginx/sites-enabled/default
+
+# Check if the symbolic link already exists and remove it if necessary
+if [ -L /etc/nginx/sites-enabled/coconut_api.conf ]; then
+    rm /etc/nginx/sites-enabled/coconut_api.conf
 fi
+
+# Create a new symbolic link for the Nginx configuration
 ln -s /etc/nginx/sites-available/coconut_api.conf /etc/nginx/sites-enabled/coconut_api.conf
+
+# Restart Nginx to apply changes
 systemctl restart nginx.service
 
-echo "Deployment of coconut API completed!"
+echo "Deployment of coconut API completed"
