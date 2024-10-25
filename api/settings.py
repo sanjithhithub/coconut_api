@@ -13,7 +13,7 @@ DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 # Hosts allowed to connect to the application
 ALLOWED_HOSTS = [
                  'ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
-                 '127.0.0.1'
+                 '127.0.0.1:8000'
                  ]
 
 # Application definition
