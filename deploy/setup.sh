@@ -53,7 +53,6 @@ if [ -L /etc/nginx/sites-enabled/coconut_api.conf ]; then
     rm /etc/nginx/sites-enabled/coconut_api.conf
 fi
 
-echo "done"
 
 # Create a new symbolic link for the Nginx configuration
 ln -s /etc/nginx/sites-available/coconut_api.conf /etc/nginx/sites-enabled/coconut_api.conf
