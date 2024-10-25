@@ -11,10 +11,10 @@ PROJECT_BASE_PATH='/usr/local/apps/coconut_api'
 # Set Ubuntu Language
 locale-gen en_GB.UTF-8
 
-# Install Python, SQLite, and pip
+# Install Python, SQLite3, and pip
 echo "Installing dependencies..."
 apt-get update
-apt-get install -y python3-dev python3-venv sqlite python3-pip supervisor nginx git
+apt-get install -y python3-dev python3-venv sqlite3 python3-pip supervisor nginx git
 
 # Create project directory and clone the GitHub repo
 mkdir -p $PROJECT_BASE_PATH
