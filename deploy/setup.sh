@@ -11,7 +11,7 @@ PROJECT_BASE_PATH='/usr/local/apps/coconut_api/api/'
 # Set Ubuntu Language
 locale-gen en_GB.UTF-8
 
-# Install Python, SQLite, pip, and other dependencies
+# Install dependencies
 echo "Installing dependencies..."
 apt-get update
 apt-get install -y python3-dev python3-venv python3-pip sqlite3 supervisor nginx git build-essential libpcre3-dev libssl-dev
@@ -37,27 +37,25 @@ $PROJECT_BASE_PATH/env/bin/pip install uwsgi  # Install uwsgi without a specific
 # Run Django migrations
 $PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py migrate
 
-# Setup Supervisor to run the uwsgi process for your project
-cp $PROJECT_BASE_PATH/deploy/supervisor_coconut_api.conf /etc/supervisor/conf.d/coconut_api.conf
+# Collect static files
+$PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py collectstatic --noinput
 
-# Reload Supervisor configuration
+# Setup Supervisor
+cp $PROJECT_BASE_PATH/deploy/supervisor_coconut_api.conf /etc/supervisor/conf.d/coconut_api.conf
 supervisorctl reread
 supervisorctl update
 supervisorctl restart coconut_api
 
-# Setup Nginx to make your application accessible
+# Setup Nginx
 cp $PROJECT_BASE_PATH/deploy/nginx_coconut_api.conf /etc/nginx/sites-available/coconut_api.conf
 
-# Check if the symbolic link already exists and remove it if necessary
+# Create symbolic link for Nginx configuration
 if [ -L /etc/nginx/sites-enabled/coconut_api.conf ]; then
     rm /etc/nginx/sites-enabled/coconut_api.conf
 fi
-
-
-# Create a new symbolic link for the Nginx configuration
 ln -s /etc/nginx/sites-available/coconut_api.conf /etc/nginx/sites-enabled/coconut_api.conf
 
-# Restart Nginx to apply changes
+# Restart Nginx
 systemctl restart nginx.service
 
 echo "Deployment of coconut API completed."
