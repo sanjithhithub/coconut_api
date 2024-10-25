@@ -90,16 +90,30 @@ REST_FRAMEWORK = {
     ],
 }
 
+
+
+# Assuming BASE_DIR is defined
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'  # URL to access static files
-# Directory for collectstatic
+STATIC_URL = '/static/'  # Ensure this is set
+
+# Static root (used only during deployment/production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_root')  # Different directory for production
+
+# Static files directories (used only during development)
 if DEBUG:
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static')
+        os.path.join(BASE_DIR, 'static'),  # Your development static files
     ]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATICFILES_DIRS = []  # Ensure this is empty for production
 
+# Ensure STATICFILES_DIRS and STATIC_ROOT are not the same directory
+if DEBUG and STATICFILES_DIRS:
+    assert os.path.abspath(STATICFILES_DIRS[0]) != os.path.abspath(STATIC_ROOT), (
+        "STATICFILES_DIRS and STATIC_ROOT should not be the same directory."
+    )
 
 # Media files settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
