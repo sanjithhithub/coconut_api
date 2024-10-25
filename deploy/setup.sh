@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -e  # Exit immediately if a command exits with a non-zero status
 
 # Set to URL of your git repo.
 PROJECT_GIT_URL='https://github.com/sanjithhithub/coconut_api.git'
@@ -18,7 +18,13 @@ apt-get install -y python3-dev python3-venv python3-pip sqlite3 supervisor nginx
 
 # Create project directory and clone your GitHub repo
 mkdir -p $PROJECT_BASE_PATH
-git clone $PROJECT_GIT_URL $PROJECT_BASE_PATH
+if [ ! -d "$PROJECT_BASE_PATH/.git" ]; then
+    git clone $PROJECT_GIT_URL $PROJECT_BASE_PATH
+else
+    echo "Project already cloned, pulling latest changes..."
+    cd $PROJECT_BASE_PATH
+    git pull
+fi
 
 # Setup Python virtual environment
 python3 -m venv $PROJECT_BASE_PATH/env
@@ -34,6 +40,7 @@ $PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py migrate
 # Setup Supervisor to run the uwsgi process for your project
 cp $PROJECT_BASE_PATH/deploy/supervisor_coconut_api.conf /etc/supervisor/conf.d/coconut_api.conf
 
+# Reload Supervisor configuration
 supervisorctl reread
 supervisorctl update
 supervisorctl restart coconut_api
@@ -46,10 +53,12 @@ if [ -L /etc/nginx/sites-enabled/coconut_api.conf ]; then
     rm /etc/nginx/sites-enabled/coconut_api.conf
 fi
 
+echo "done"
+
 # Create a new symbolic link for the Nginx configuration
 ln -s /etc/nginx/sites-available/coconut_api.conf /etc/nginx/sites-enabled/coconut_api.conf
 
 # Restart Nginx to apply changes
 systemctl restart nginx.service
 
-echo "Deployment of coconut API completed"
+echo "Deployment of coconut API completed."
