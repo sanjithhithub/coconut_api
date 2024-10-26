@@ -13,7 +13,8 @@ DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 # Hosts allowed to connect to the application
 ALLOWED_HOSTS = [
                  'ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
-                 '127.0.0.1:8000'
+                 '127.0.0.1:8000',
+                 '127.0.0.1'
                  ]
 
 # Application definition
@@ -28,6 +29,7 @@ INSTALLED_APPS = [
     'ccapi',
     'storages',
     'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -38,6 +40,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  
+    'django.middleware.common.CommonMiddleware',
     
 ]
 
