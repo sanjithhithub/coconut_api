@@ -32,8 +32,10 @@ source $PROJECT_BASE_PATH/env/bin/activate
 $PROJECT_BASE_PATH/env/bin/pip install --upgrade pip
 $PROJECT_BASE_PATH/env/bin/pip install -r $PROJECT_BASE_PATH/requirements.txt
 
-# Install uWSGI with pre-built binary wheels to avoid build issues
-$PROJECT_BASE_PATH/env/bin/pip install --only-binary=:all: uwsgi
+# Explicitly install uWSGI version that is compatible with your Python version
+# For Python 3.8 and above, you can use the latest version
+# Modify the version number according to your Python version
+$PROJECT_BASE_PATH/env/bin/pip install uwsgi==2.0.21  # Example version, change if necessary
 
 # Run Django migrations
 $PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py migrate
