@@ -32,10 +32,9 @@ source $PROJECT_BASE_PATH/env/bin/activate
 $PROJECT_BASE_PATH/env/bin/pip install --upgrade pip
 $PROJECT_BASE_PATH/env/bin/pip install -r $PROJECT_BASE_PATH/requirements.txt
 
-# Explicitly install uWSGI version that is compatible with your Python version
-# For Python 3.8 and above, you can use the latest version
-# Modify the version number according to your Python version
+# Install uWSGI explicitly
 $PROJECT_BASE_PATH/env/bin/pip install uwsgi
+
 # Run Django migrations
 $PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py migrate
 
@@ -47,8 +46,16 @@ supervisorctl restart coconut_api
 
 # Setup Nginx to make the coconut_api accessible
 cp $PROJECT_BASE_PATH/deploy/nginx_coconut_api.conf /etc/nginx/sites-available/coconut_api.conf
-rm /etc/nginx/sites-enabled/default
+
+# Remove the default configuration file if it exists
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+# Link your configuration file
 ln -s /etc/nginx/sites-available/coconut_api.conf /etc/nginx/sites-enabled/coconut_api.conf
+
+# Restart Nginx service
 systemctl restart nginx.service
 
 echo "Deployment of coconut API completed successfully!"
