@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+# Allow all origins (not recommended for production)
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
