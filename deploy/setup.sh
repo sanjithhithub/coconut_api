@@ -14,7 +14,9 @@ locale-gen en_GB.UTF-8
 # Install Python, SQLite3, and pip
 echo "Installing dependencies..."
 apt-get update
-apt-get install -y python3-dev python3-venv sqlite3 python3-pip supervisor nginx git
+
+# Install necessary packages, including build-essential for compiling C extensions
+apt-get install -y python3-dev python3-venv sqlite3 python3-pip supervisor nginx git build-essential libssl-dev zlib1g-dev libpcre3 libpcre3-dev
 
 # Create project directory and clone the repository
 mkdir -p $PROJECT_BASE_PATH
@@ -23,9 +25,15 @@ git clone $PROJECT_GIT_URL $PROJECT_BASE_PATH
 # Set up Python virtual environment
 python3 -m venv $PROJECT_BASE_PATH/env
 
-# Install required Python packages inside the virtual environment
+# Activate the virtual environment
+source $PROJECT_BASE_PATH/env/bin/activate
+
+# Upgrade pip and install required Python packages inside the virtual environment
 $PROJECT_BASE_PATH/env/bin/pip install --upgrade pip
-$PROJECT_BASE_PATH/env/bin/pip install -r $PROJECT_BASE_PATH/requirements.txt uwsgi==2.0.21
+$PROJECT_BASE_PATH/env/bin/pip install -r $PROJECT_BASE_PATH/requirements.txt
+
+# Install uWSGI with pre-built binary wheels to avoid build issues
+$PROJECT_BASE_PATH/env/bin/pip install --only-binary=:all: uwsgi
 
 # Run Django migrations
 $PROJECT_BASE_PATH/env/bin/python $PROJECT_BASE_PATH/manage.py migrate
