@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -e  # Exit the script if any command fails
 
 # Set to URL of your git repo
 PROJECT_GIT_URL='https://github.com/sanjithhithub/coconut_api.git'
@@ -9,12 +9,17 @@ PROJECT_GIT_URL='https://github.com/sanjithhithub/coconut_api.git'
 PROJECT_BASE_PATH='/usr/local/apps/coconut_api'
 
 # Set Ubuntu Language
+export LANGUAGE=en_GB.UTF-8
+export LANG=en_GB.UTF-8
+export LC_ALL=en_GB.UTF-8
 locale-gen en_GB.UTF-8
+dpkg-reconfigure locales
 
 # Install Python, SQLite3, and pip
 echo "Installing dependencies..."
 apt-get update
-apt-get install -y python3-dev python3-venv sqlite3 python3-pip supervisor nginx git
+apt-get upgrade -y
+apt-get install -y python3-dev python3-venv sqlite3 python3-pip python3-wheel supervisor nginx git
 
 # Create project directory and clone the GitHub repo
 mkdir -p $PROJECT_BASE_PATH
