@@ -31,21 +31,25 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
 ]
+# CORS configuration
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all origins only in development
 
-# Allow all origins (not recommended for production)
-CORS_ALLOW_ALL_ORIGINS = True
+if not DEBUG:
+    CORS_ALLOWED_ORIGINS = [
+         'http://localhost:3000',
+         'http://ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
+]
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Place CORS middleware at the top after SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  
-    'django.middleware.common.CommonMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'api.urls'
