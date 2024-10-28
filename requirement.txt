@@ -51,3 +51,6 @@ virtualenv==20.25.0
 Werkzeug==3.0.1
 wheel==0.43.0
 zipp==3.18.1
+
+django-cors-headers>=3.7,<4.0
+
