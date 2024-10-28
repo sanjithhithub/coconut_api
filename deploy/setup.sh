@@ -30,6 +30,8 @@ source $PROJECT_BASE_PATH/env/bin/activate
 
 # Upgrade pip and install required Python packages inside the virtual environment
 $PROJECT_BASE_PATH/env/bin/pip install --upgrade pip
+
+# Install required packages from requirements.txt
 $PROJECT_BASE_PATH/env/bin/pip install -r $PROJECT_BASE_PATH/requirements.txt
 
 # Install uWSGI explicitly
