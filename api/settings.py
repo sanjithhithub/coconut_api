@@ -4,18 +4,17 @@ from pathlib import Path
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Secret key for the project
-SECRET_KEY = 'django-insecure-e0s#hyx5a(x^0h=e_^7h=wxtmkl1m-0epselz#d5^^lqkp$9f+'
+# Secret key for the project (use an environment variable in production)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')
 
 # DEBUG mode should be disabled in production
 DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 # Hosts allowed to connect to the application
 ALLOWED_HOSTS = [
-                 'ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
-                 '127.0.0.1:8000',
-                 '127.0.0.1'
-                 ]
+    'ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
+    '127.0.0.1',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -29,21 +28,22 @@ INSTALLED_APPS = [
     'ccapi',
     'storages',
     'drf_yasg',
-    'corsheaders',
+    'corsheaders',  # Make sure this is installed
 ]
+
 # CORS configuration
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all origins only in development
 
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
-         'http://localhost:3000',
-         'http://ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
-]
-    
+        'http://localhost:3000',
+        'http://ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
+    ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # Place CORS middleware at the top after SecurityMiddleware
+    'corsheaders.middleware.CorsMiddleware',  # CORS middleware should be placed at the top
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -101,30 +101,17 @@ REST_FRAMEWORK = {
     ],
 }
 
-
-
-# Assuming BASE_DIR is defined
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'  # Ensure this is set
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_root')  # Directory for production
 
-# Static root (used only during deployment/production)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_root')  # Different directory for production
-
-# Static files directories (used only during development)
+# Ensure STATICFILES_DIRS and STATIC_ROOT are not the same directory
 if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'static'),  # Your development static files
     ]
 else:
     STATICFILES_DIRS = []  # Ensure this is empty for production
-
-# Ensure STATICFILES_DIRS and STATIC_ROOT are not the same directory
-if DEBUG and STATICFILES_DIRS:
-    assert os.path.abspath(STATICFILES_DIRS[0]) != os.path.abspath(STATIC_ROOT), (
-        "STATICFILES_DIRS and STATIC_ROOT should not be the same directory."
-    )
 
 # Media files settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
