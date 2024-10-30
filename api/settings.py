@@ -12,7 +12,7 @@ DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 # Hosts allowed to connect to the application
 ALLOWED_HOSTS = [
-    'ec2-3-107-210-229.ap-southeast-2.compute.amazonaws.com',
+    'ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
     '127.0.0.1',
 ]
 
@@ -37,7 +37,7 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all origins only in development
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
         'http://localhost:3000',
-        'http://ec2-3-107-210-229.ap-southeast-2.compute.amazonaws.com',
+        'http://ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
     ]
 
 # Middleware
