@@ -12,7 +12,7 @@ DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
 # Hosts allowed to connect to the application
 ALLOWED_HOSTS = [
-    'ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
+    'ec2-3-107-210-229.ap-southeast-2.compute.amazonaws.com',
     '127.0.0.1',
 ]
 
@@ -28,22 +28,13 @@ INSTALLED_APPS = [
     'ccapi',
     'storages',
     'drf_yasg',
-    'corsheaders',  # Make sure this is installed
+
 ]
 
-# CORS configuration
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all origins only in development
-
-if not DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        'http://localhost:3000',
-        'http://ec2-52-65-140-222.ap-southeast-2.compute.amazonaws.com',
-    ]
 
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # CORS middleware should be placed at the top
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
